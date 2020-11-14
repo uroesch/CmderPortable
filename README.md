@@ -1,13 +1,13 @@
-[![Build]({{ AppProjectUrl }}/workflows/build-package/badge.svg)]({{ AppProjectUrl }}/actions?query=workflow%3Abuild-package)
-[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/uroesch/{{ AppName }}?include_prereleases)]({{ AppProjectUrl }}/releases)
+﻿[![Build](https://github.com/uroesch/CmderPortable/workflows/build-package/badge.svg)](https://github.com/uroesch/CmderPortable/actions?query=workflow%3Abuild-package)
+[![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/uroesch/CmderPortable?include_prereleases)](https://github.com/uroesch/CmderPortable/releases)
 [![Runs on](https://img.shields.io/badge/runs%20on-Win64%20%26%20Win32-blue)](#runtime-dependencies)
-![GitHub All Releases](https://img.shields.io/github/downloads/{{ GitHubUser }}/{{ AppName }}/total)
+![GitHub All Releases](https://img.shields.io/github/downloads/uroesch/CmderPortable/total)
 
 # {{ AppNamedSpaced }} for PortableApps.com
 
 <img src="App/AppInfo/appicon_128.png" align=left>
 
-[{{ UpstreamName }}]({{ UpstreamUrl }}) Lorem ipsum dolor sit amet, consetetur
+[Cmder](https://cmder.net) Lorem ipsum dolor sit amet, consetetur
 sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
 magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
 dolores et ea rebum.
@@ -100,3 +100,4 @@ curl -sJL https://raw.githubusercontent.com/uroesch/PortableApps/master/scripts/
 [fs]: Other/Icons/full_support.svg
 [defender_warning]: Other/Images/info_defender-protected.png
 [howto_unlock]: Other/Images/info_defender-protected.png
+
