@@ -1,0 +1,112 @@
+# -----------------------------------------------------------------------------
+# Build workflow for portable apps
+# Author: Urs Roesch https://github.com/uroesch
+# Version: 0.5.0
+# -----------------------------------------------------------------------------
+name: build-package
+
+on:
+  push:
+    branches:
+    - workflow/*
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build-package:
+    timeout-minutes: 15
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - windows-latest
+    env:
+      DISPLAY: ':7777'
+      PA_DOWNLOAD: https://sourceforge.net/projects/portableapps/files/PortableApps.com%%20%s/%s/download
+      PA_INSTALLER: 3.5.18
+      PA_LAUNCHER: 2.2.2
+
+    steps:
+    - name: Cache apt directory cache
+      if: runner.os == 'Linux'
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-apt-pkgs
+      with:
+        path: /var/cache/apt/archive
+        key: build-package-${{ env.cache-name }}-${{ hashFiles('*.deb') }}
+
+    - name: Install Wine ~ hick ~
+      if: runner.os == 'Linux'
+      shell: bash
+      run: >
+        sudo dpkg --add-architecture i386 &&
+        sudo apt-get update &&
+        sudo apt-get -y install wine32
+
+    - name: Install Virtual Frame Buffer
+      if: runner.os == 'Linux'
+      shell: bash
+      run: sudo apt-get -y install xvfb
+
+    - name: Cache PortableApps Infrastructure
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-pa-infra
+      with:
+        path: ~/downloads
+        key: build-package-${{ env.cache-name }}-${{ hashFiles('PortableApps.com*.paf.exe') }}
+
+    - name: Download and install PortableApps.comInstaller
+      shell: bash
+      run: |
+        name=PortableApps.comInstaller_${PA_INSTALLER}.paf.exe
+        installer=~/downloads/${name}
+        mkdir -p ~/downloads
+        test -f ${installer} ||
+        curl --location -o ${installer} \
+        $(printf "${PA_DOWNLOAD}" Installer ${name})
+        7z x -y -o../PortableApps.comInstaller ${installer}
+
+    - name: Download and install PortableApps.comLauncher
+      shell: bash
+      run: |
+        name=PortableApps.comInstaller_${PA_INSTALLER}.paf.exe
+        name=PortableApps.comLauncher_${PA_LAUNCHER}.paf.exe
+        installer=~/downloads/${name}
+        mkdir -p ~/downloads
+        test -f ${installer} ||
+        curl --location -o ${installer} \
+        $(printf "${PA_DOWNLOAD}" Launcher ${name})
+        7z x -y -o../PortableApps.comLauncher ${installer}
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+
+    - name: Start Virtual Frame Buffer
+      if: runner.os == 'Linux'
+      shell: bash
+      run: Xvfb ${DISPLAY} -ac &
+
+    - name: Run build script Update.ps1
+      run: pwsh -ExecutionPolicy ByPass -File Other/Update/Update.ps1
+      timeout-minutes: 10
+
+    - name: Collect logs on failure
+      if: failure()
+      shell: bash
+      run: |
+        mkdir ../artifacts
+        cp ../PortableApps.com*/Data/*Log.txt ../artifacts
+
+    - name: Upload artifacts on failure
+      if: failure()
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: logs.zip
+        path: ../artifacts
