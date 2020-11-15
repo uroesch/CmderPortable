@@ -7,7 +7,7 @@
 
 <img src="App/AppInfo/appicon_128.png" align=left>
 
-[Cmder Mini](https://cmder.net) is a software package created out of pure 
+[Cmder](https://cmder.net) is a software package created out of pure 
 frustration over absence of usable console emulator on Windows. It is based 
 on ConEmu with major config overhaul, comes with a Monokai color scheme, 
 amazing clink (further enhanced by clink-completions) and a custom prompt layout.
