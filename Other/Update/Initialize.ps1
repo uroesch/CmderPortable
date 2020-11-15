@@ -180,8 +180,6 @@ Function Questionaire() {
 # -----------------------------------------------------------------------------
 # Functions
 # -----------------------------------------------------------------------------
-#$Files | %{ $_ }
-#$Placeholders
 Check-Initial
 Rename-Launcher
 Query-GitOrigin
