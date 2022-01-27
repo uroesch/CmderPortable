@@ -24,6 +24,8 @@ Sticks or cloud storage. So you can carry your console, aliases and binaries
 
 | OS              | 32-bit             | 64-bit              |
 |-----------------|:------------------:|:-------------------:|
+| ReactOS 0.4.14  | ![nd][nd]          | ![nd][nd]           |
+| ReactOS 0.4.15  | ![nd][nd]          | ![nd][nd]           |
 | Windows XP      | ![nd][nd]          | ![nd][nd]           |
 | Windows Vista   | ![nd][nd]          | ![nd][nd]           |
 | Windows 7       | ![nd][nd]          | ![nd][nd]           |
